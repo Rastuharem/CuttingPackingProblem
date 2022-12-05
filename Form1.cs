@@ -202,7 +202,7 @@ namespace Cutter
             counter++;
             if (counter % 100 == 0)
             {
-                labelIndicator.Text = "СТОП! "+(counter).ToString()+" S = "+BestRect.ToString();
+                labelIndicator.Text = "СТОП! " + (counter).ToString() + " S = " + BestRect.ToString();
                 if (counter % 1000 == 0) pictureBox.Refresh();
                 Application.DoEvents();
             }
@@ -255,6 +255,7 @@ namespace Cutter
             //результат вернуть
             return bestw * besth;
         }
+
         bool IsFree(bool[,] Map, int x, int y, int w, int h)
         {
             if (x + w > fWidth) return false;
@@ -264,6 +265,7 @@ namespace Cutter
                     if (Map[y + dy, x + dx]) return false;
             return true;
         }
+
         //Сохранить решение
         void SaveSolve(string FileName)
         {
@@ -272,6 +274,17 @@ namespace Cutter
                 foreach (Detail d in Best)
                     stream.WriteLine(d.ToString());
             }
+        }
+
+
+
+
+
+
+
+        private void SolutionButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -35,6 +35,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.SolutionButton = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -62,7 +63,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.solveToolStripMenuItem});
+            this.solveToolStripMenuItem,
+            this.SolutionButton});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(705, 24);
@@ -77,41 +79,48 @@
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.fileToolStripMenuItem.Text = "Файл";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.openToolStripMenuItem.Text = "Открыть";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.saveAsToolStripMenuItem.Text = "Сохранить как";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(147, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.exitToolStripMenuItem.Text = "Выход";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // solveToolStripMenuItem
             // 
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
-            this.solveToolStripMenuItem.Text = "Решить";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(219, 20);
+            this.solveToolStripMenuItem.Text = "Решить методом полного перебора";
             this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
+            // 
+            // SolutionButton
+            // 
+            this.SolutionButton.Name = "SolutionButton";
+            this.SolutionButton.Size = new System.Drawing.Size(154, 20);
+            this.SolutionButton.Text = "Решить с помощью ЭГА";
+            this.SolutionButton.Click += new System.EventHandler(this.SolutionButton_Click);
             // 
             // dgv
             // 
@@ -327,6 +336,7 @@
         private System.Windows.Forms.TextBox textBoxStep;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelIndicator;
+        private System.Windows.Forms.ToolStripMenuItem SolutionButton;
     }
 }
 

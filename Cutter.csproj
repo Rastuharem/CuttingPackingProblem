@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Codestring.cs" />
+    <Compile Include="Detail.cs" />
+    <Compile Include="EvolutionAlgorithm.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
