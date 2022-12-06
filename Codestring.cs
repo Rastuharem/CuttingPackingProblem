@@ -5,33 +5,46 @@ namespace Cutter
     class Codestring
     {
         public List<int> CodeStr { get; }
-        public List<Detail> Sample { get; }
-        public List<Detail> CurDetails { get; }
+        public List<IItem> Sample { get; }
+        public List<IItem> CurItems { get; }
+        public IDecoder Decoder { get; set; }
         public int Criterium { get; }
 
-        public Codestring(List<Detail> details, List<Detail> sample)
+        public Codestring(List<IItem> items, List<IItem> sample, IDecoder decoder)
         {
-            CurDetails = details;
+            Decoder = decoder;
+            CurItems = items;
             Sample = sample;
-            CodeStr = CodeCodestring(CurDetails, Sample);
-            Criterium = CountCriterium();
+            CodeStr = Code(items, sample);
+            Criterium = decoder.CountCriterium(items);
+
         }
-        public Codestring(List<int> codestring, List<Detail> sample)
+        public Codestring(List<int> codestring, List<IItem> sample, IDecoder decoder)
         {
+            Decoder = decoder;
             CodeStr = codestring;
             Sample = sample;
-            CurDetails = Uncode(codestring, sample);
-            Criterium = CountCriterium();
+            CurItems = Decode(codestring, sample);
+            Criterium = decoder.CountCriterium(CurItems);
         }
 
-        private List<int> CodeCodestring(List<Detail> details ,List<Detail> sample)
+        public List<IItem> Decode(List<int> codestring, List<IItem> sample)
+        {
+            List<IItem> details = new List<IItem>();
+            for (int i = 0; i < codestring.Count; i++)
+            {
+                details.Add(sample[codestring[i]]);
+            }
+            return details;
+        }
+        public List<int> Code(List<IItem> items, List<IItem> sample)
         {
             List<int> CodeStr = new List<int>();
             for (int i = 0; i < sample.Count; i++)
             {
-                for (int j = 0; j < details.Count; j++)
+                for (int j = 0; j < items.Count; j++)
                 {
-                    if (details[j] == sample[i])
+                    if (items[j] == sample[i])
                     {
                         CodeStr.Add(i);
                     }
@@ -39,21 +52,6 @@ namespace Cutter
             }
 
             return CodeStr;
-        }
-
-        private List<Detail> Uncode(List<int> codestring, List<Detail> sample)
-        {
-            List<Detail> details = new List<Detail>();
-            for (int i = 0; i < codestring.Count; i++)
-            {
-                details.Add(sample[codestring[i]]);
-            }
-            return details;
-        }
-
-        private int CountCriterium()
-        {
-            return - 1;
         }
     }
 }

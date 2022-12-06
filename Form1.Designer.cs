@@ -35,7 +35,7 @@
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.SolutionButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.solutionButton = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -45,15 +45,13 @@
             this.buttonDelete = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.saveFileDialog2 = new System.Windows.Forms.SaveFileDialog();
             this.textBoxWidth = new System.Windows.Forms.TextBox();
             this.textBoxHeight = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBoxStep = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.labelIndicator = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.saveSolutionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -64,10 +62,10 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.solveToolStripMenuItem,
-            this.SolutionButton});
+            this.solutionButton});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(705, 24);
+            this.menuStrip.Size = new System.Drawing.Size(1452, 24);
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -76,58 +74,57 @@
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.saveAsToolStripMenuItem,
+            this.saveSolutionToolStripMenuItem,
             this.toolStripMenuItem1,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
-            this.fileToolStripMenuItem.Text = "Файл";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.openToolStripMenuItem.Text = "Открыть";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveAsToolStripMenuItem
             // 
             this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.saveAsToolStripMenuItem.Text = "Сохранить как";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsToolStripMenuItem.Text = "Save detail list";
             this.saveAsToolStripMenuItem.Click += new System.EventHandler(this.saveAsToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(151, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.exitToolStripMenuItem.Text = "Выход";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // solveToolStripMenuItem
             // 
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(219, 20);
-            this.solveToolStripMenuItem.Text = "Решить методом полного перебора";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(189, 20);
+            this.solveToolStripMenuItem.Text = "Solve with Enumeration method";
             this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
             // 
-            // SolutionButton
+            // solutionButton
             // 
-            this.SolutionButton.Name = "SolutionButton";
-            this.SolutionButton.Size = new System.Drawing.Size(154, 20);
-            this.SolutionButton.Text = "Решить с помощью ЭГА";
-            this.SolutionButton.Click += new System.EventHandler(this.SolutionButton_Click);
+            this.solutionButton.Name = "solutionButton";
+            this.solutionButton.Size = new System.Drawing.Size(181, 20);
+            this.solutionButton.Text = "Solve with Evolution algorithm";
+            this.solutionButton.Click += new System.EventHandler(this.SolutionButton_Click);
             // 
             // dgv
             // 
             this.dgv.AllowUserToAddRows = false;
             this.dgv.AllowUserToDeleteRows = false;
-            this.dgv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column3,
@@ -138,33 +135,33 @@
             this.dgv.Name = "dgv";
             this.dgv.RowHeadersVisible = false;
             this.dgv.RowTemplate.DefaultCellStyle.NullValue = "-";
-            this.dgv.Size = new System.Drawing.Size(427, 239);
+            this.dgv.Size = new System.Drawing.Size(427, 511);
             this.dgv.TabIndex = 1;
             // 
             // Column3
             // 
-            this.Column3.HeaderText = "Название";
+            this.Column3.HeaderText = "Name";
             this.Column3.Name = "Column3";
             // 
             // Column1
             // 
-            this.Column1.HeaderText = "Ширина";
+            this.Column1.HeaderText = "Width";
             this.Column1.Name = "Column1";
             // 
             // Column2
             // 
-            this.Column2.HeaderText = "Высота";
+            this.Column2.HeaderText = "Height";
             this.Column2.Name = "Column2";
             // 
             // Column4
             // 
-            this.Column4.HeaderText = "Количество";
+            this.Column4.HeaderText = "Amount";
             this.Column4.Name = "Column4";
             // 
             // buttonAdd
             // 
             this.buttonAdd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonAdd.Location = new System.Drawing.Point(3, 272);
+            this.buttonAdd.Location = new System.Drawing.Point(4, 593);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(26, 23);
             this.buttonAdd.TabIndex = 2;
@@ -175,7 +172,7 @@
             // buttonDelete
             // 
             this.buttonDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.buttonDelete.Location = new System.Drawing.Point(35, 272);
+            this.buttonDelete.Location = new System.Drawing.Point(36, 593);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(26, 23);
             this.buttonDelete.TabIndex = 2;
@@ -185,12 +182,10 @@
             // 
             // pictureBox
             // 
-            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox.Location = new System.Drawing.Point(433, 87);
+            this.pictureBox.Location = new System.Drawing.Point(797, 53);
+            this.pictureBox.MaximumSize = new System.Drawing.Size(536, 485);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(271, 208);
+            this.pictureBox.Size = new System.Drawing.Size(536, 485);
             this.pictureBox.TabIndex = 3;
             this.pictureBox.TabStop = false;
             this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
@@ -202,13 +197,6 @@
             this.openFileDialog1.Filter = "Текст|*.txt";
             this.openFileDialog1.Title = "Набор деталей";
             // 
-            // saveFileDialog1
-            // 
-            this.saveFileDialog1.DefaultExt = "txt";
-            this.saveFileDialog1.FileName = "*.txt";
-            this.saveFileDialog1.Filter = "Текст|*.txt";
-            this.saveFileDialog1.Title = "Набор деталей";
-            // 
             // saveFileDialog2
             // 
             this.saveFileDialog2.DefaultExt = "txt";
@@ -218,78 +206,66 @@
             // 
             // textBoxWidth
             // 
-            this.textBoxWidth.Location = new System.Drawing.Point(530, 38);
+            this.textBoxWidth.Location = new System.Drawing.Point(497, 27);
             this.textBoxWidth.Name = "textBoxWidth";
             this.textBoxWidth.Size = new System.Drawing.Size(52, 20);
             this.textBoxWidth.TabIndex = 4;
             this.textBoxWidth.Text = "100";
             this.textBoxWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWidth_KeyPress);
             // 
             // textBoxHeight
             // 
-            this.textBoxHeight.Location = new System.Drawing.Point(530, 64);
+            this.textBoxHeight.Location = new System.Drawing.Point(661, 27);
             this.textBoxHeight.Name = "textBoxHeight";
             this.textBoxHeight.Size = new System.Drawing.Size(52, 20);
             this.textBoxHeight.TabIndex = 4;
             this.textBoxHeight.Text = "100";
             this.textBoxHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxWidth_KeyPress);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(433, 38);
+            this.label1.Location = new System.Drawing.Point(433, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 5;
-            this.label1.Text = "Ширина листа";
+            this.label1.Text = "Width of list";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(436, 67);
+            this.label2.Location = new System.Drawing.Point(593, 27);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.Size = new System.Drawing.Size(65, 13);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Высота листа";
+            this.label2.Text = "Height of list";
             // 
-            // textBoxStep
+            // listBox1
             // 
-            this.textBoxStep.Location = new System.Drawing.Point(652, 35);
-            this.textBoxStep.Name = "textBoxStep";
-            this.textBoxStep.Size = new System.Drawing.Size(41, 20);
-            this.textBoxStep.TabIndex = 4;
-            this.textBoxStep.Text = "10";
-            this.textBoxStep.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(433, 53);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(358, 485);
+            this.listBox1.TabIndex = 6;
             // 
-            // label3
+            // saveSolutionToolStripMenuItem
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(615, 38);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(27, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Шаг";
-            // 
-            // labelIndicator
-            // 
-            this.labelIndicator.AutoSize = true;
-            this.labelIndicator.Location = new System.Drawing.Point(615, 67);
-            this.labelIndicator.Name = "labelIndicator";
-            this.labelIndicator.Size = new System.Drawing.Size(0, 13);
-            this.labelIndicator.TabIndex = 5;
-            this.labelIndicator.Click += new System.EventHandler(this.labelIndicator_Click);
+            this.saveSolutionToolStripMenuItem.Name = "saveSolutionToolStripMenuItem";
+            this.saveSolutionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveSolutionToolStripMenuItem.Text = "Save solution";
+            this.saveSolutionToolStripMenuItem.Click += new System.EventHandler(this.SaveSolutionToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(705, 306);
+            this.ClientSize = new System.Drawing.Size(1452, 619);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.labelIndicator);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBoxHeight);
-            this.Controls.Add(this.textBoxStep);
             this.Controls.Add(this.textBoxWidth);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.buttonDelete);
@@ -298,8 +274,7 @@
             this.Controls.Add(this.menuStrip);
             this.MainMenuStrip = this.menuStrip;
             this.Name = "Form1";
-            this.Text = "Оптимальный раскрой";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Text = "Cutter problem";
             this.menuStrip.ResumeLayout(false);
             this.menuStrip.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv)).EndInit();
@@ -326,17 +301,15 @@
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.PictureBox pictureBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
-        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.TextBox textBoxWidth;
         private System.Windows.Forms.TextBox textBoxHeight;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBoxStep;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelIndicator;
-        private System.Windows.Forms.ToolStripMenuItem SolutionButton;
+        private System.Windows.Forms.ToolStripMenuItem solutionButton;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripMenuItem saveSolutionToolStripMenuItem;
     }
 }
 

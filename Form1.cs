@@ -8,14 +8,20 @@ namespace Cutter
 {
     public partial class Form1 : Form
     {
-        private bool stop = false;
         private int fWidth = 100;
         private int fHeight = 100;
-        private int fStep = 10;
+
+        private Graphics g;
+
+        private List<IItem> Full = new List<IItem>(); //Список имеющихся
+        private List<IVisualItem> Best = new List<IVisualItem>(); //Лучший вариант
+        private IVisualItem VisualCriterium;
 
         public Form1()
         {
             InitializeComponent();
+
+            g = pictureBox.CreateGraphics();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -27,11 +33,18 @@ namespace Cutter
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
             LoadDetails(openFileDialog1.FileName);
             ClearSolve();
+
+            //g.DrawRectangle(Pens.Red, new Rectangle(0, 0, pictureBox.Width-1, pictureBox.Height-1));
         }
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (saveFileDialog1.ShowDialog() != DialogResult.OK) return;
-            SaveDetails(saveFileDialog1.FileName);
+            if (saveFileDialog2.ShowDialog() != DialogResult.OK) return;
+            SaveDetails(saveFileDialog2.FileName);
+        }
+        private void SaveSolutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog2.ShowDialog() != DialogResult.OK) return;
+            SaveSolution(saveFileDialog2.FileName);
         }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
@@ -42,29 +55,26 @@ namespace Cutter
             if (dgv.RowCount > 0)
                 dgv.Rows.RemoveAt(dgv.RowCount - 1);
         }
+        private void textBoxWidth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+
+            if (Char.IsLetter(number))
+            {
+                e.Handled = true;
+            }
+        }
+
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
+
             e.Graphics.Clear(Color.White);
             //Выбрать масштаб
             float scaleheight = 1.0f * pictureBox.Height / int.Parse(textBoxHeight.Text);
             float scalewidth = 1.0f * pictureBox.Width / int.Parse(textBoxWidth.Text);
-            Detail.scale = scaleheight < scalewidth ? scaleheight : scalewidth;
-            //Вывести Best
-            foreach (var b in Best) b.Paint(e.Graphics);
-            //Вывести лучший прямоугольник
-            //чтобы не выходило за границу поля:
-            if (BestRectangle.Width + BestRectangle.X >= fWidth * Detail.scale - 2)
-                BestRectangle.Width = fWidth * Detail.scale - 2 - BestRectangle.X;
-            if (BestRectangle.Height + BestRectangle.Y >= fHeight * Detail.scale - 2)
-                BestRectangle.Height = fHeight * Detail.scale - 2 - BestRectangle.Y;
-
-            e.Graphics.FillRectangle(Brushes.Green, BestRectangle);
-            //Для ориентировки - границу поля
-            e.Graphics.DrawRectangle(Pens.Red, 1, 1, fWidth * Detail.scale - 2, fHeight * Detail.scale - 2);
-        }
-        private void labelIndicator_Click(object sender, EventArgs e)
-        {
-            stop = true;
+            DrawByGraphics.scale = scaleheight < scalewidth ? scaleheight : scalewidth;
+            e.Graphics.DrawRectangle(Pens.Red, new Rectangle(0, 0,
+                Convert.ToInt32(fWidth * DrawByGraphics.scale) - 1, Convert.ToInt32(fHeight * DrawByGraphics.scale) - 1));
         }
 
         //Загрузить список деталей в dgv
@@ -97,192 +107,74 @@ namespace Cutter
                 }
             }
         }
-
-
-        List<Detail> Full = new List<Detail>(); //Список имеющихся
-        List<Detail> Best = new List<Detail>(); //Лучший вариант
         //Очистить решение
         void ClearSolve()
         {
             Best.Clear();
             pictureBox.Refresh();
         }
-        //Решить задачу
+        //Сохранить решение
+        void SaveSolution(string FileName)
+        {
+            using (StreamWriter stream = new StreamWriter(FileName))
+            {
+                foreach (IItem d in Best)
+                    stream.WriteLine(d.ToString());
+                stream.WriteLine(VisualCriterium.ToString());
+            }
+        }
+
+        //Решить задачу методом полного перебора
         private void solveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Прочитать настройки
+            CheckTheSettings();
             int.TryParse(textBoxHeight.Text, out fHeight);
             textBoxHeight.Text = fHeight.ToString();
             int.TryParse(textBoxWidth.Text, out fWidth);
             textBoxWidth.Text = fWidth.ToString();
-            int.TryParse(textBoxStep.Text, out fStep);
-            textBoxStep.Text = fStep.ToString();
+
+            DrawByGraphics drawer = new DrawByGraphics(g);
 
             //Создать список деталей
-            CreateDetailList();
+            Full = ParseDetailList();
             //Провести перебор возможных размещений (с шагом)
-            Solve();
-            //Сохранить
-            if (saveFileDialog2.ShowDialog() != DialogResult.OK) return;
-            SaveSolve(saveFileDialog2.FileName);
+            Codestring cdstr = new Codestring(Full, Full, (SimpleDecoder)SimpleDecoder.GetInstance(fHeight, fWidth));
+            int Criterium = cdstr.Decoder.CountCriterium(cdstr.CurItems);
+            VisualCriterium = cdstr.Decoder.GetVisualCriterium();
+            Best = cdstr.Decoder.GetVisualItemsList();
+            listBox1.Items.Add("Criterium square = " + Criterium);
+
+            foreach(IVisualItem item in Best)
+            {
+                drawer.Print(item);
+            }
+            drawer.Print(VisualCriterium);
         }
-        void CreateDetailList()
+
+        private void SolutionButton_Click(object sender, EventArgs e)
         {
-            Full.Clear();
+
+        }
+
+        private List<IItem> ParseDetailList()
+        {
+            List<IItem> items = new List<IItem>();
             //Для каждой строчки создать и добавить в список Full
             //с учетом количества
             foreach (DataGridViewRow Row in dgv.Rows)
             {
-                int NDetails = Convert.ToInt32(Row.Cells[3].Value);
-                for (int n=0; n<NDetails; n++)
+                int Ndetails = Convert.ToInt32(Row.Cells[3].Value);
+                for (int n = 0; n < Ndetails; n++)
                 {
-                    Detail d = new Detail()
-                    {
-                        height = Convert.ToInt32(Row.Cells[2].Value),
-                        width = Convert.ToInt32(Row.Cells[1].Value),
-                        rotated = false,
-                        x = 0, y = 0,
-                        id = Row.Cells[0].Value.ToString() + " экз. " + (n + 1).ToString()
-                    };
-                    Full.Add(d);
+                    Detail d = new Detail(Row.Cells[0].Value.ToString() + " num. " + (n + 1).ToString(), Convert.ToInt32(Row.Cells[2].Value),
+                                          Convert.ToInt32(Row.Cells[1].Value));
+                    items.Add(d);
                 }
             }
+            return items;
         }
-        void Solve()
-        {
-            counter = 1;
-            stop = false;
-            //Лучшее решение очистить
-            BestRect = 0;
-            Best.Clear();
-            //Создать карту
-            Map = new bool[fHeight, fWidth];
-            //Рекурсивно найти 
-            int index = 0;
-            for (int x = 0; x < fWidth; x += fStep)
-                for (int y = 0; y < fHeight; y += fStep)
-                    for (int r = 0; r < 2; r++)
-                        solve(index, x, y, r == 1);
-            pictureBox.Refresh(); //Обновить картинку
-        }
-
-        bool[,] Map;
-        int BestRect = 0;
-        void solve(int detail, int X, int Y, bool Rotated)
-        {
-            if (stop) return;
-            //Поместить указанную деталь из общего списка на место
-            //Для следующей детали найти место
-            Full[detail].x = X;
-            Full[detail].y = Y;
-            Full[detail].rotated = Rotated;
-            if (Full[detail].PlaceTo(Map))
-            {
-                //Если это последняя деталь, то сравнить с лучшим результатом
-                //и запомнить, если лучше
-                if (detail == Full.Count - 1)
-                    CheckTheBest();
-                else
-                    //Иначе - разместить следующую деталь
-                    for (int x = 0; x < fWidth; x += fStep)
-                        for (int y = 0; y < fHeight; y += fStep)
-                            for (int r = 0; r < 2; r++)
-                                solve(detail + 1, x, y, r == 1);
-
-                //Забрать деталь
-                Full[detail].TakeFrom(Map);
-            }
-        }
-        //Проверить решение на "быть лучшим"
-        //и сохранить копию в Best
-        int counter;
-        RectangleF BestRectangle = new Rectangle(0, 0, 0, 0); //Найденный прямоугольник
-        void CheckTheBest()
-        {
-            counter++;
-            if (counter % 100 == 0)
-            {
-                labelIndicator.Text = "СТОП! " + (counter).ToString() + " S = " + BestRect.ToString();
-                if (counter % 1000 == 0) pictureBox.Refresh();
-                Application.DoEvents();
-            }
-            int MaxRect = MaxRectangle(Map);
-            if (MaxRect > BestRect)
-            {
-                BestRect = MaxRect;
-                //Сохранить копию
-                Best.Clear();
-                foreach (Detail d in Full)
-                {
-                    Best.Add(new Detail()
-                    {
-                        id = d.id,
-                        height = d.height,
-                        rotated = d.rotated,
-                        width = d.width,
-                        x = d.x,
-                        y = d.y
-                    });
-                    BestRectangle.X = bestx * Detail.scale + 1;
-                    BestRectangle.Y = besty * Detail.scale + 1;
-                    BestRectangle.Width = (bestw) * Detail.scale;
-                    BestRectangle.Height = (besth) * Detail.scale;
-                }
-            }
-        }
-
-        //Найти свободный прямоугольник максимальной площади
-        int bestw = 0, besth = 0; //Лучшие ширина и высота
-        int bestx = 0, besty = 0; //Лучшие координаты
-        int MaxRectangle(bool[,] Map)
-        {
-            bestw = 0; besth = 0; //Лучшие ширина и высота
-            //перебрав все возможные позиции левого верхнего угла
-            for (int x = 0; x < fWidth; x += fStep)
-                for (int y = 0; y < fHeight; y += fStep)
-                    //и размеры прямоугольника
-                    for (int w = fStep; w < fWidth; w += fStep)
-                        for (int h = fStep; h < fHeight; h += fStep)
-                            if (w * h >= bestw * besth)
-                                //определить, занята ли хоть одна точка внутри него
-                                if (IsFree(Map, x, y, w, h))
-                                {
-                                    bestw = w + fStep-1;
-                                    besth = h + fStep-1;
-                                    bestx = x;
-                                    besty = y;
-                                }
-            //результат вернуть
-            return bestw * besth;
-        }
-
-        bool IsFree(bool[,] Map, int x, int y, int w, int h)
-        {
-            if (x + w > fWidth) return false;
-            if (y + h > fHeight) return false;
-            for (int dx = 0; dx < w; dx += fStep)
-                for (int dy = 0; dy < h; dy += fStep)
-                    if (Map[y + dy, x + dx]) return false;
-            return true;
-        }
-
-        //Сохранить решение
-        void SaveSolve(string FileName)
-        {
-            using (StreamWriter stream = new StreamWriter(FileName))
-            {
-                foreach (Detail d in Best)
-                    stream.WriteLine(d.ToString());
-            }
-        }
-
-
-
-
-
-
-
-        private void SolutionButton_Click(object sender, EventArgs e)
+        private void CheckTheSettings()
         {
 
         }
