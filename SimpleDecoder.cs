@@ -2,18 +2,24 @@
 
 namespace Cutter
 {
+    // Class: represents simple decoder, which places Details by finding first free spot
+    //
     class SimpleDecoder : ADecoder
     {
         private List<IVisualItem> visualItems = new List<IVisualItem>();
         private IVisualItem visualCriterium = null;
 
+        // Singleton pattern
+        //
         private SimpleDecoder(int fHeight, int fWidth) : base(fHeight, fWidth) { }
         public static IDecoder GetInstance(int fHeight, int fWidth)
         {
             if (instance == null) instance = new SimpleDecoder(fHeight, fWidth);
             return instance;
         }
-
+        
+        // Returns int, which counts as most possible free square in task list
+        // Also creates VisualItem VisualCriterium and List of VisualItem VisualItems for their Get methods
         public override int CountCriterium(List<IItem> items)
         {
             for (int i = 0; i < fHeight; i++)
@@ -59,8 +65,7 @@ namespace Cutter
         }
         protected override int FindMaxFreeRectangle(bool[,] Map)
         {
-            int bestw = 0; int besth = 0; int bestx = 0; int besty = 0; //Лучшие ширина и высота
-            //перебрав все возможные позиции левого верхнего угла
+            int bestw = 0; int besth = 0; int bestx = 0; int besty = 0;
             for (int rows = 0; rows < fHeight; rows++)
                 for (int cols = 0; cols < fWidth; cols++)
                     if (Map[rows, cols])
@@ -85,11 +90,13 @@ namespace Cutter
                             besty = cols;
                         }
                     }
-            //результат вернуть
             visualCriterium = new VisualItem(new Detail("Criterium", besth, bestw), besty, bestx);
             return bestw * besth;
         }
 
+        // Returns VisualItem of abstract Detail, which counts by most possible free square in task list
+        //!!! Needs to call CountCriterium method first, or it'll return empty VisualItem
+        //
         public override IVisualItem GetVisualCriterium()
         {
             if (visualCriterium == null)
@@ -98,6 +105,9 @@ namespace Cutter
             }
             return visualCriterium;
         }
+        // Returns List of VisualItem placed on a task list
+        //!!! Needs to call CountCriterium method first, or it'll return empty List
+        //
         public override List<IVisualItem> GetVisualItemsList() { return visualItems; }
 
         private bool IsFree(int y, int x, int height, int width)

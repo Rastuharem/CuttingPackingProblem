@@ -12,10 +12,7 @@
             this.yCoord = yCoord;
         }
 
-        public int GetHeight()
-        {
-            return Item.GetHeight();
-        }
+        public int GetHeight() { return Item.GetHeight(); }
         public string GetID() { return Item.GetID(); }
         public int GetWidth() { return Item.GetWidth(); }
         public bool IsRotated() { return Item.IsRotated(); }
@@ -25,19 +22,13 @@
         public void SetX(int xCoord) { this.xCoord = xCoord; }
         public void SetY(int yCoord) { this.yCoord = yCoord; }
 
-        public void Print(IDrawByContext context)
-        {
-            context.Print(this);
-        }
+        public void Print(IDrawByContext context) { context.Print(this); }
 
-        public int GetSquare()
-        {
-            return Item.GetSquare();
-        }
+        public int GetSquare() { return Item.GetSquare(); }
         public override string ToString()
         {
-            return Item.GetID() + " " + Item.GetWidth() + " * " + Item.GetHeight() + "; It's square = " + Item.GetSquare() +
-                "; It's coords: x = " + xCoord + ", y = " + yCoord;
+            return Item.GetID() + " " + Item.GetWidth() + " * " + Item.GetHeight() + "; Its square = " + Item.GetSquare() +
+                "; Its coords: x = " + xCoord + ", y = " + yCoord;
         }
     }
 }

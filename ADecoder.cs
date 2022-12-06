@@ -2,6 +2,9 @@
 
 namespace Cutter
 {
+    // Abstract class: represent decoders, which decode Codestring and place Details in task list
+    // Can exist only one copy (Singleton pattern)
+    //
     abstract class ADecoder : IDecoder
     {
         protected static ADecoder instance = null;

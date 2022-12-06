@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace Cutter
+﻿namespace Cutter
 {
     class Detail : IItem
     {
@@ -24,9 +22,8 @@ namespace Cutter
 
         public override string ToString()
         {
-            return ID + " " + Width.ToString() + " * " + Height.ToString() + "; It's square = " + (Width * Height);
+            return ID + " " + Width.ToString() + " * " + Height.ToString() + "; Its square = " + (Width * Height);
         }
-
         public int GetSquare()
         {
             return Height * Width;

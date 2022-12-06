@@ -1,8 +1,10 @@
-﻿namespace Cutter
+﻿using System.Collections.Generic;
+
+namespace Cutter
 {
     interface IAlgorithm
     {
-        IItem GetSolution();
+        void GetSolution(out List<IVisualItem> solution, out IVisualItem criterium);
         void Solve();
     }
 }

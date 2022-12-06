@@ -8,14 +8,14 @@ namespace Cutter
 {
     public partial class Form1 : Form
     {
-        private int fWidth = 100;
-        private int fHeight = 100;
+        private int fWidth = 100; // Width of task list
+        private int fHeight = 100; // Height of task list
 
         private Graphics g;
 
-        private List<IItem> Full = new List<IItem>(); //Список имеющихся
-        private List<IVisualItem> Best = new List<IVisualItem>(); //Лучший вариант
-        private IVisualItem VisualCriterium;
+        private List<IItem> Full = new List<IItem>(); // List of all details
+        private List<IVisualItem> Best = new List<IVisualItem>(); // Best option
+        private IVisualItem VisualCriterium; // Criterium abstract detail
 
         public Form1()
         {
@@ -24,10 +24,12 @@ namespace Cutter
             g = pictureBox.CreateGraphics();
         }
 
+        // 'Exit' button
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
         }
+        // 'Open' button
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog() != DialogResult.OK) return;
@@ -36,25 +38,30 @@ namespace Cutter
 
             //g.DrawRectangle(Pens.Red, new Rectangle(0, 0, pictureBox.Width-1, pictureBox.Height-1));
         }
+        // 'Save list of details' button
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() != DialogResult.OK) return;
             SaveDetails(saveFileDialog2.FileName);
         }
+        // 'Save solution' button
         private void SaveSolutionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (saveFileDialog2.ShowDialog() != DialogResult.OK) return;
             SaveSolution(saveFileDialog2.FileName);
         }
+        // '+' button
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             dgv.Rows.Add();
         }
+        // '-' button
         private void buttonDelete_Click(object sender, EventArgs e)
         {
             if (dgv.RowCount > 0)
                 dgv.Rows.RemoveAt(dgv.RowCount - 1);
         }
+        // Textboxes input checker
         private void textBoxWidth_KeyPress(object sender, KeyPressEventArgs e)
         {
             char number = e.KeyChar;
@@ -65,11 +72,12 @@ namespace Cutter
             }
         }
 
+        // Picturebox painter
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
 
             e.Graphics.Clear(Color.White);
-            //Выбрать масштаб
+            //Choose scale
             float scaleheight = 1.0f * pictureBox.Height / int.Parse(textBoxHeight.Text);
             float scalewidth = 1.0f * pictureBox.Width / int.Parse(textBoxWidth.Text);
             DrawByGraphics.scale = scaleheight < scalewidth ? scaleheight : scalewidth;
@@ -77,7 +85,7 @@ namespace Cutter
                 Convert.ToInt32(fWidth * DrawByGraphics.scale) - 1, Convert.ToInt32(fHeight * DrawByGraphics.scale) - 1));
         }
 
-        //Загрузить список деталей в dgv
+        // Load list of details to 'dgv'
         void LoadDetails(string FileName)
         {
             string[] f = File.ReadAllLines(FileName);
@@ -89,8 +97,9 @@ namespace Cutter
                 for (int col = 0; col < Math.Min(dgv.ColumnCount, d.Length); col++)
                     dgv.Rows[row].Cells[col].Value = d[col];
             }
+            pictureBox_Paint(Owner, new PaintEventArgs(g, pictureBox.DisplayRectangle));
         }
-        //Сохраить список деталей из dgv
+        // Save list of details from 'dgv'
         void SaveDetails(string FileName)
         {
             using (StreamWriter stream = new StreamWriter(FileName))
@@ -107,13 +116,13 @@ namespace Cutter
                 }
             }
         }
-        //Очистить решение
+        // Clear Solution
         void ClearSolve()
         {
             Best.Clear();
             pictureBox.Refresh();
         }
-        //Сохранить решение
+        // Save Solution
         void SaveSolution(string FileName)
         {
             using (StreamWriter stream = new StreamWriter(FileName))
@@ -124,39 +133,33 @@ namespace Cutter
             }
         }
 
-        //Решить задачу методом полного перебора
-        private void solveToolStripMenuItem_Click(object sender, EventArgs e)
+        // Solve task with Enumeration method
+        private void solveEnumMethodToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Прочитать настройки
-            CheckTheSettings();
-            int.TryParse(textBoxHeight.Text, out fHeight);
-            textBoxHeight.Text = fHeight.ToString();
-            int.TryParse(textBoxWidth.Text, out fWidth);
-            textBoxWidth.Text = fWidth.ToString();
+            pictureBox_Paint(Owner, new PaintEventArgs(g, pictureBox.DisplayRectangle));
+            if (!IsGoodSettings()) return;
 
             DrawByGraphics drawer = new DrawByGraphics(g);
-
-            //Создать список деталей
+            PrintByListBox printer = new PrintByListBox(listBox1);
             Full = ParseDetailList();
-            //Провести перебор возможных размещений (с шагом)
-            Codestring cdstr = new Codestring(Full, Full, (SimpleDecoder)SimpleDecoder.GetInstance(fHeight, fWidth));
-            int Criterium = cdstr.Decoder.CountCriterium(cdstr.CurItems);
-            VisualCriterium = cdstr.Decoder.GetVisualCriterium();
-            Best = cdstr.Decoder.GetVisualItemsList();
-            listBox1.Items.Add("Criterium square = " + Criterium);
 
-            foreach(IVisualItem item in Best)
+            EnumAlgorithm alg = new EnumAlgorithm(Full, SimpleDecoder.GetInstance(fHeight, fWidth), printer);
+            alg.GetSolution(out Best, out VisualCriterium);
+
+            foreach (IVisualItem item in Best)
             {
                 drawer.Print(item);
             }
             drawer.Print(VisualCriterium);
         }
 
-        private void SolutionButton_Click(object sender, EventArgs e)
+        // Solve task with Evolution algorithm
+        private void solveEvolAlgToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
+        // Parse data from 'dgv' into list
         private List<IItem> ParseDetailList()
         {
             List<IItem> items = new List<IItem>();
@@ -174,9 +177,27 @@ namespace Cutter
             }
             return items;
         }
-        private void CheckTheSettings()
+        // Common data checker
+        private bool IsGoodSettings()
         {
-
+            if(textBoxHeight.Text == "" || textBoxWidth.Text == "")
+            {
+                MessageBox.Show("Type data in textboxes!!!");
+                return false;
+            }
+            try
+            {
+                int.TryParse(textBoxHeight.Text, out fHeight);
+                textBoxHeight.Text = fHeight.ToString();
+                int.TryParse(textBoxWidth.Text, out fWidth);
+                textBoxWidth.Text = fWidth.ToString();
+            }
+            catch
+            {
+                MessageBox.Show("Error in parsing textboxes. Please, check input.");
+                return false;
+            }
+            return true;
         }
     }
 }

@@ -34,8 +34,8 @@
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solutionButton = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveEnumMethodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveEvolAlgToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dgv = new System.Windows.Forms.DataGridView();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,8 +61,8 @@
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.solveToolStripMenuItem,
-            this.solutionButton});
+            this.solveEnumMethodToolStripMenuItem,
+            this.solveEvolAlgToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(1452, 24);
@@ -107,19 +107,19 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
-            // solveToolStripMenuItem
+            // solveEnumMethodToolStripMenuItem
             // 
-            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(189, 20);
-            this.solveToolStripMenuItem.Text = "Solve with Enumeration method";
-            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
+            this.solveEnumMethodToolStripMenuItem.Name = "solveEnumMethodToolStripMenuItem";
+            this.solveEnumMethodToolStripMenuItem.Size = new System.Drawing.Size(189, 20);
+            this.solveEnumMethodToolStripMenuItem.Text = "Solve with Enumeration method";
+            this.solveEnumMethodToolStripMenuItem.Click += new System.EventHandler(this.solveEnumMethodToolStripMenuItem_Click);
             // 
-            // solutionButton
+            // solveEvolAlgToolStripMenuItem
             // 
-            this.solutionButton.Name = "solutionButton";
-            this.solutionButton.Size = new System.Drawing.Size(181, 20);
-            this.solutionButton.Text = "Solve with Evolution algorithm";
-            this.solutionButton.Click += new System.EventHandler(this.SolutionButton_Click);
+            this.solveEvolAlgToolStripMenuItem.Name = "solveEvolAlgToolStripMenuItem";
+            this.solveEvolAlgToolStripMenuItem.Size = new System.Drawing.Size(181, 20);
+            this.solveEvolAlgToolStripMenuItem.Text = "Solve with Evolution algorithm";
+            this.solveEvolAlgToolStripMenuItem.Click += new System.EventHandler(this.solveEvolAlgToolStripMenuItem_Click);
             // 
             // dgv
             // 
@@ -292,7 +292,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem solveEnumMethodToolStripMenuItem;
         private System.Windows.Forms.DataGridView dgv;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
@@ -307,7 +307,7 @@
         private System.Windows.Forms.TextBox textBoxHeight;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ToolStripMenuItem solutionButton;
+        private System.Windows.Forms.ToolStripMenuItem solveEvolAlgToolStripMenuItem;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.ToolStripMenuItem saveSolutionToolStripMenuItem;
     }
