@@ -28,7 +28,20 @@ namespace Cutter
         abstract protected bool PlaceTo(IItem item);
         abstract protected int FindMaxFreeRectangle(bool[,] Map);
 
-        abstract public IVisualItem GetVisualCriterium();
-        abstract public List<IVisualItem> GetVisualItemsList();
+        abstract public IVisualItem GetVisualCriterium(List<IItem> items);
+        abstract public List<IVisualItem> GetVisualItemsList(List<IItem> items);
+
+        public void SetFWidth(int fwidth)
+        {
+            this.fWidth = fwidth;
+            Map = new bool[fHeight, fWidth];
+        }
+        public void SetFHeight(int fheight)
+        {
+            this.fHeight = fheight;
+            Map = new bool[fHeight, fWidth];
+        }
+        public int GetFHeight() { return fHeight; }
+        public int GetFWidth() { return fWidth; }
     }
 }

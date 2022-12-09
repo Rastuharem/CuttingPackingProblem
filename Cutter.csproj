@@ -51,27 +51,36 @@
     <Compile Include="AAlgorithm.cs" />
     <Compile Include="ADecoder.cs" />
     <Compile Include="Codestring.cs" />
+    <Compile Include="CodestringComparer.cs" />
     <Compile Include="Detail.cs" />
     <Compile Include="DrawByGraphics.cs" />
     <Compile Include="EnumAlgorithm.cs" />
     <Compile Include="EvolutionAlgorithm.cs" />
+    <Compile Include="FiftyFiftyCrossover.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FortuneWheelReproductor.cs" />
     <Compile Include="IAlgorithm.cs" />
+    <Compile Include="ICrossover.cs" />
     <Compile Include="IDecoder.cs" />
     <Compile Include="IDrawByContext.cs" />
     <Compile Include="IItem.cs" />
+    <Compile Include="IMutator.cs" />
+    <Compile Include="IReproductor.cs" />
     <Compile Include="IPrinter.cs" />
+    <Compile Include="ISelector.cs" />
     <Compile Include="IVisualItem.cs" />
     <Compile Include="PrintByListBox.cs" />
     <Compile Include="PrintByNothing.cs" />
+    <Compile Include="SymmetryMutator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleDecoder.cs" />
+    <Compile Include="TournamentSelector.cs" />
     <Compile Include="VisualItem.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

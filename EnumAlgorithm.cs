@@ -5,10 +5,7 @@ namespace Cutter
 {
     class EnumAlgorithm : AAlgorithm
     {
-        public EnumAlgorithm(List<IItem> sample, IDecoder decoder, IPrinter printer = null) : base(sample, decoder, printer)
-        {
-
-        }
+        public EnumAlgorithm(List<IItem> sample, IDecoder decoder, IPrinter printer = null) : base(sample, decoder, printer) { }
         public override void Solve()
         {
             Printer.Clear();
@@ -17,6 +14,9 @@ namespace Cutter
                 Printer.Print("Algorithm can't be used, because PC can't store 10! transpositions");
                 return;
             }
+
+            Printer.Print("Algorithm will use:");
+            Printer.Print("     Decoder - " + Decoder.ToString());
 
             StartTimeCount();
 
@@ -32,9 +32,8 @@ namespace Cutter
                 if (Floor[i].Criterium > answ.Criterium)
                     answ = Floor[i];
 
-            answ.Decoder.CountCriterium(answ.CurItems);
-            BestSolution = answ.Decoder.GetVisualItemsList();
-            BestCriterium = answ.Decoder.GetVisualCriterium();
+            BestSolution = answ.GetVisualItemsList();
+            BestCriterium = answ.GetVisualCriterium();
 
             StopTimeCount();
 

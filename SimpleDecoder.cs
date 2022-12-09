@@ -97,18 +97,19 @@ namespace Cutter
         // Returns VisualItem of abstract Detail, which counts by most possible free square in task list
         //!!! Needs to call CountCriterium method first, or it'll return empty VisualItem
         //
-        public override IVisualItem GetVisualCriterium()
+        public override IVisualItem GetVisualCriterium(List<IItem> items)
         {
-            if (visualCriterium == null)
-            {
-                return new VisualItem(new Detail("Критерий", 0, 0));
-            }
+            CountCriterium(items);
             return visualCriterium;
         }
         // Returns List of VisualItem placed on a task list
         //!!! Needs to call CountCriterium method first, or it'll return empty List
         //
-        public override List<IVisualItem> GetVisualItemsList() { return visualItems; }
+        public override List<IVisualItem> GetVisualItemsList(List<IItem> items)
+        {
+            CountCriterium(items);
+            return visualItems;
+        }
 
         private bool IsFree(int y, int x, int height, int width)
         {
@@ -118,6 +119,11 @@ namespace Cutter
                 for (int j = x; j < width + x; j++)
                     if (!Map[i, j]) return false;
             return true;
+        }
+
+        public override string ToString()
+        {
+            return "Simple decoder, which places details line by line";
         }
     }
 }

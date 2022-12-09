@@ -58,5 +58,39 @@ namespace Cutter
 
             return CodeStr;
         }
+
+        public List<IVisualItem> GetVisualItemsList()
+        {
+            return this.Decoder.GetVisualItemsList(CurItems);
+        }
+        public IVisualItem GetVisualCriterium()
+        {
+            return this.Decoder.GetVisualCriterium(CurItems);
+        }
+
+        public static bool operator ==(Codestring c1, Codestring c2)
+        {
+            if (c1.CodeStr.Count != c2.CodeStr.Count) return false;
+            for (int i = 0; i < c1.CodeStr.Count; i++)
+            {
+                if (c1.CodeStr[i] != c2.CodeStr[i])
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        public static bool operator !=(Codestring c1, Codestring c2)
+        {
+            if (c1.CodeStr.Count != c2.CodeStr.Count) return true;
+            for (int i = 0; i < c1.CodeStr.Count; i++)
+            {
+                if (c1.CodeStr[i] != c2.CodeStr[i])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

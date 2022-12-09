@@ -136,8 +136,8 @@ namespace Cutter
         // Solve task with Enumeration method
         private void solveEnumMethodToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pictureBox_Paint(Owner, new PaintEventArgs(g, pictureBox.DisplayRectangle));
             if (!IsGoodSettings()) return;
+            pictureBox_Paint(Owner, new PaintEventArgs(g, pictureBox.DisplayRectangle));
 
             DrawByGraphics drawer = new DrawByGraphics(g);
             PrintByListBox printer = new PrintByListBox(listBox1);
@@ -156,7 +156,21 @@ namespace Cutter
         // Solve task with Evolution algorithm
         private void solveEvolAlgToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!IsGoodSettings()) return;
+            pictureBox_Paint(Owner, new PaintEventArgs(g, pictureBox.DisplayRectangle));
 
+            DrawByGraphics drawer = new DrawByGraphics(g);
+            PrintByListBox printer = new PrintByListBox(listBox1);
+            Full = ParseDetailList();
+
+            EvolutionAlgorithm alg = new EvolutionAlgorithm(Full, SimpleDecoder.GetInstance(fHeight, fWidth), printer);
+            alg.GetSolution(out Best, out VisualCriterium);
+
+            foreach (IVisualItem item in Best)
+            {
+                drawer.Print(item);
+            }
+            drawer.Print(VisualCriterium);
         }
 
         // Parse data from 'dgv' into list
@@ -197,6 +211,8 @@ namespace Cutter
                 MessageBox.Show("Error in parsing textboxes. Please, check input.");
                 return false;
             }
+            SimpleDecoder.GetInstance(fHeight, fWidth).SetFHeight(fHeight);
+            SimpleDecoder.GetInstance(fHeight, fWidth).SetFWidth(fWidth);
             return true;
         }
     }
